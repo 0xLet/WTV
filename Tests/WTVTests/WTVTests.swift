@@ -2,16 +2,39 @@ import XCTest
 @testable import WTV
 
 final class WTVTests: XCTestCase {
+    enum Color: String, Hashable {
+        case green
+    }
+    
     struct Dictionary {
         var value = [
             "someValue": [
-                "what...?": 999
+                "what": "the", // ++
+                "no": [
+                    "what": "!!!", // ++
+                    Color.green: [
+                        2,5,6,7,
+                        
+                        ["what": "👋"] // ++
+                    ]
+                ]
             ]
         ]
     }
     
     struct Value {
-        let somes = Dictionary()
+        let somes = [
+            Dictionary(), // += 3
+            
+            "what",
+            "the",
+            "variable",
+            
+            [
+                "what": 3.14 // ++
+            ],
+            Dictionary() // += 3
+        ] as [Any]
     }
     
     struct RootValue {
@@ -23,7 +46,7 @@ final class WTVTests: XCTestCase {
     }
     
     func testExample() {
-        guard let output = WTV(OuterValue()).variable(named: "what...?") else {
+        guard let output = WTV(OuterValue()).variable(named: "what") else {
             XCTFail()
             return
         }
