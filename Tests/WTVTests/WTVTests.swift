@@ -6,6 +6,38 @@ final class WTVTests: XCTestCase {
         case green
     }
     
+    struct SomeObject {
+        enum SomeCase {
+            case what
+        }
+        
+        enum SomeStringCase: String {
+            case what
+        }
+        
+        enum WoahCase {
+            case woah(what: Any)
+        }
+        
+        let dictionary = [
+            SomeCase.what: "🚨", // ++
+            SomeStringCase.what: "😱" // ++
+        ] as [AnyHashable : String]
+        
+        let what = "😎" // ++
+        
+        let woah = WoahCase.woah(
+            what: {
+                let what = "🔫"
+                
+                let dictionary = [
+                    SomeCase.what: "🪦",
+                    SomeStringCase.what: "💩"
+                ] as [AnyHashable : String]
+            } // ++
+        )
+    }
+    
     struct Dictionary {
         var value = [
             "someValue": [
@@ -15,7 +47,14 @@ final class WTVTests: XCTestCase {
                     Color.green: [
                         2,5,6,7,
                         
-                        ["what": "👋"] // ++
+                        [
+                            "what": "👋", // ++
+                            
+                            "???": [
+                                "what": "👀", // ++
+                                "-->": SomeObject() // += 6
+                            ]
+                        ]
                     ]
                 ]
             ]
@@ -24,17 +63,11 @@ final class WTVTests: XCTestCase {
     
     struct Value {
         let somes = [
-            Dictionary(), // += 3
-            
-            "what",
-            "the",
-            "variable",
-            
-            [
-                "what": 3.14 // ++
-            ],
-            Dictionary() // += 3
-        ] as [Any]
+            "what": 3.14, // ++
+            "deeper": Something()
+        ] as [String : Any]
+        
+        let thing = Dictionary()
     }
     
     struct RootValue {
@@ -43,6 +76,13 @@ final class WTVTests: XCTestCase {
     
     struct OuterValue {
         let root = RootValue()
+    }
+    
+    struct Something {
+        let what = "else" // ++
+        let wow = [
+            "what": 3.14, // ++
+        ]
     }
     
     func testExample() {
@@ -57,6 +97,6 @@ final class WTVTests: XCTestCase {
     }
     
     static var allTests = [
-        ("testExample", testExample),
+        ("testExample", testExample)
     ]
 }
